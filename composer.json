@@ -1,0 +1,26 @@
+{
+    "name": "crphp/webservice",
+    "type": "library",
+    "description": "Biblioteca genérica para consumir webservice.",
+    "keywords": ["webservice"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/crphp/webservice/issues",
+        "source": "https://github.com/crphp/webservice"
+    },
+    "authors": [
+        {
+            "name": "Fábio Jânio",
+            "email": "contato@fabiojanio.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Crphp\\Webservice\\": "src/"
+            }
+    },
+    "minimum-stability": "dev"
+}
