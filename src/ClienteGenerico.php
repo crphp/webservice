@@ -3,7 +3,7 @@
 /**
  *  Classe genérica de interação com webservice
  * 
- * @package     Crphp
+ * @package     crphp
  * @subpackage  webservice
  * @author      Fábio J L Ferreira <contato@fabiojanio.com>
  * @license     MIT (consulte o arquivo license disponibilizado com este pacote)
@@ -12,12 +12,13 @@
 
 namespace Crphp\Webservice;
 
+use \DOMDocument;
+
 class ClienteGenerico
 {
     /**
-     * Apontamento para uma instância de Curl
+     * Armazena uma instância de Curl
      * 
-     * @access private
      * @var object
      */
     private $curl;
@@ -39,7 +40,7 @@ class ClienteGenerico
     /**
      * Atribui alguns valores considerados padrão
      * 
-     * @access public
+     * @return null
      */
     public function __construct()
     {
@@ -50,11 +51,13 @@ class ClienteGenerico
     }
 
     /**
-     * Atribui a URL alvo e o tempo máximo de espera
+     * Define a URL alvo e o tempo máximo do pedido, contando desde o tempo de 
+     * conexão até o retorno da requisição
      * 
-     * @param string $url
-     * @param int $timeout
-     */
+     * @param   string  $url
+     * @param   int     $timeout
+     * @return  null
+     */    
     public function setURL($url, $timeout = 30)
     {
         curl_setopt($this->curl, CURLOPT_URL, $url);
@@ -64,8 +67,9 @@ class ClienteGenerico
     /**
      * Define o agente a ser utilizado
      * 
-     * @param string $agente
-     */
+     * @param   string $agente
+     * @return  null
+     */  
     public function setAgent($agente = "PHP ClienteGenerico")
     {
         curl_setopt($this->curl, CURLOPT_USERAGENT, $agente);
@@ -74,20 +78,20 @@ class ClienteGenerico
     /**
      * Adiciona o conteúdo e atribui um cabeçalho a requisição
      * 
-     * @param string $post
-     * @param array $header
+     * @param   string  $post
+     * @param   array   $header
+     * @return  null
      */
     public function setRequest($post = null, array $header = null)
     {
-        if (!$header)
-        {
-            $header = array(
+        if (!$header) {
+            $header = [
                 "Content-type: text/xml;charset=UTF-8",
                 "Accept: text/xml",
                 "Cache-Control: no-cache",
                 "Pragma: no-cache",
-                "Content-length: " . strlen($post),
-            );
+                "Content-length: " . strlen($post)
+            ];
         }
 
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, $header);
@@ -96,12 +100,15 @@ class ClienteGenerico
     }
 
     /**
-     * Define regras de redirecionamento de URL
+     * Define regras de redirecionamento de URL, tais como se deve serguir 
+     * redirecionamentos, total de redirecionamentos aceitos e se deve ser 
+     * aplicado refresh caso um redirect seja seguido
      * 
-     * @param bool  $redirect
-     * @param int   $numRedirect
-     * @param bool  $refresh
-     */
+     * @param   bool  $redirect
+     * @param   int   $numRedirect
+     * @param   bool  $refresh
+     * @return  null
+     */  
     public function setRedirect($redirect = true, $numRedirect = 5, $refresh = true)
     {
         curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, $redirect);
@@ -112,7 +119,7 @@ class ClienteGenerico
     /**
      * Executa a consulta a URL alvo
      * 
-     * @return void|string em caso de sucesso retorna vazio, para erro retorna string
+     * @return null
      */
     public function run()
     {
@@ -136,12 +143,13 @@ class ClienteGenerico
     /**
      * Retorna o output devolvido pelo servidor alvo
      * 
-     * @return void|string em caso de sucesso retorna vazio, para erro retorna string
+     * @return null|string em caso de sucesso retorna vazio, para erro retorna string
      */
     public function getResponse()
     {
-        if($this->getInfo()['http_code'] === 500 || $this->getInfo()['http_code'] === 404)
-        {
+        $http_code = $this->getInfo();
+        
+        if($http_code === 500 || $http_code === 404 || !$this->xml) {
             return null;
         }
         
@@ -155,9 +163,11 @@ class ClienteGenerico
      */
     public function formatarXML()
     {        
-        if(!$this->getResponse()) { return null; }
+        if(!$this->getResponse()) {
+            return null;
+        }
 
-        $dom = new \DOMDocument;
+        $dom = new DOMDocument;
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML($this->getResponse());

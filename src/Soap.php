@@ -3,7 +3,7 @@
 /**
  * Classe de interação com interface soap
  * 
- * @package     Crphp
+ * @package     crphp
  * @subpackage  webservice
  * @author      Fábio J L Ferreira <contato@fabiojanio.com>
  * @license     MIT (consulte o arquivo license disponibilizado com este pacote)
@@ -11,6 +11,10 @@
  */
 
 namespace Crphp\Webservice;
+
+use \Exception;
+use \SoapClient;
+use \DOMDocument;
 
 class Soap
 {
@@ -22,70 +26,64 @@ class Soap
     private $client;
 
     /**
-     * Chama o WSDL
+     * Consulta o WSDL informado
      * 
-     * @param string $wsdl
-     * @param array $opcoes
-     * @return void|string em caso de sucesso retorna vazio, para erro retorna string
+     * @param   string       $wsdl
+     * @param   array        $opcoes
+     * @return  null|string  null = sucesso, string = erro
      */
-    public function setWsdl($wsdl, Array $opcoes = null)
+    public function setWsdl($wsdl, array $opcoes = null)
     {
-        if (!$opcoes)
-        {
+        if (!$opcoes) {
             $opcoes = [
-                        'cache_wsdl' => 'WSDL_CACHE_NONE',
-                        'soap_version' => 'SOAP_1_1',
-                        'trace' => 1,
-                        'encoding' => 'UTF-8'
-                      ];
+                'cache_wsdl' => 'WSDL_CACHE_NONE',
+                'soap_version' => 'SOAP_1_2',
+                'trace' => 1,
+                'encoding' => 'UTF-8'
+            ];
         }
 
         try {
-            $this->client = new \SoapClient($wsdl, $opcoes);
-        } catch (\Exception $ex) {
-            return $ex->getMessage();
+            $this->client = new SoapClient($wsdl, $opcoes);
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
     }
-    
+        
     /**
      * Dispara a consulta contra o serviço informado
      * 
-     * @param string $acao
-     * @param array $argumentos
-     * @return void|string em caso de sucesso retorna vazio, para erro retorna string
+     * @param   string       $acao
+     * @param   array        $argumentos
+     * @return  null|string  null = sucesso, string = erro
      */
-    public function consultar($acao, Array $argumentos)
+    public function consultar($acao, array $argumentos = null)
     {
         try {
-            if(!$this->client)
-            {
-                throw new \Exception("Ocorreu um erro ao tentar chamar o serviço <strong>{$acao}</strong>.");
+            if(!$this->client) {
+                throw new Exception("Ocorreu um erro ao tentar chamar o serviço <b>{$acao}</b>.");
             }
             
             $this->client->__soapCall($acao, array($argumentos));
-        } catch (\Exception $ex) {
-            return $ex->getMessage();
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
     }
 
     /**
-     * Retorna a assinatura dos métodos
+     * Retorna os métodos expostos pelo WSDL
      * 
-     * @return array|void em caso de sucesso retorna array, para erro retorna null
+     * @return array|null
      */
     public function getMetodos()
     {
-        if($this->client)
-        {
-            foreach($this->client->__getFunctions() as $metodo)
-            {  
+        if($this->client) {
+            foreach($this->client->__getFunctions() as $metodo) {  
                 $array = explode(' ', substr($metodo, 0, strpos($metodo, '(')));
                 $metodos[] = end($array);
             }
             return $metodos;
         }
-        
-        return null;
     }
 
     /**
@@ -116,9 +114,11 @@ class Soap
      */
     public function formatarXML($soap)
     {
-        if(!$soap) { return null; }
+        if(!$soap) {
+            return null;
+        }
         
-        $dom = new \DOMDocument;
+        $dom = new DOMDocument;
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML($soap);
