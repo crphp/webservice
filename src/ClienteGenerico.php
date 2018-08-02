@@ -147,9 +147,9 @@ class ClienteGenerico
      */
     public function getResponse()
     {
-        $http_code = $this->getInfo();
+        $status = $this->getInfo()['http_code'];
         
-        if($http_code === 500 || $http_code === 404 || !$this->xml) {
+        if($status === 500 || $status === 404 || $status === 403 || !$this->xml) {
             return null;
         }
         
