@@ -75,7 +75,7 @@ if($obj->getResponse()) {
 }
 ```
 
-**Utilizando a classe Soap **
+**Utilizando a classe Soap**:
 ```php
 use Crphp\Webservice\Soap;
 
@@ -93,7 +93,7 @@ if($erro = $obj->setWsdl('endereco_do_wsdl')) {
 // $obj->getMethods();
 
 // Se o retorno for null então significa que a consulta não foi realizada
-if(!$erro = $obj->consult('ConvertTemp', $args)) {
+if(!$erro = $obj->consult('nomeServico', $args)) {
     // Perfumaria
     echo '<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>';
     echo "<pre class='prettyprint' >" . $obj->formatXML($obj->getResponse()) . "</pre>";
