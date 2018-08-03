@@ -71,7 +71,7 @@ $obj->run();
 if($obj->getResponse()) {
     // Perfumaria
     echo '<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>';
-    echo "<pre class='prettyprint' >" . $obj->formatarXML() . "</pre>";
+    echo "<pre class='prettyprint' >" . $obj->formatXML() . "</pre>";
 }
 ```
 
@@ -90,13 +90,13 @@ if($erro = $obj->setWsdl('endereco_do_wsdl')) {
 }
 
 // Retorna os métodos expostos pelo WSDL
-// $obj->getMetodos();
+// $obj->getMethods();
 
 // Se o retorno for null então significa que a consulta não foi realizada
-if(!$erro = $obj->consultar('ConvertTemp', $args)) {
+if(!$erro = $obj->consult('ConvertTemp', $args)) {
     // Perfumaria
     echo '<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>';
-    echo "<pre class='prettyprint' >" . $obj->formatarXML($obj->getResponse()) . "</pre>";
+    echo "<pre class='prettyprint' >" . $obj->formatXML($obj->getResponse()) . "</pre>";
 } else {
     echo $erro;
 }

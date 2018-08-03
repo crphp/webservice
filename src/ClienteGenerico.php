@@ -24,11 +24,11 @@ class ClienteGenerico
     private $curl;
     
     /**
-     * Armazena o xml retornado pela consulta
+     * Armazena o conteúdo retornado pela consulta
      *
      * @var string
      */
-    private $xml;
+    private $content;
     
     /**
      * Armazena as informações referentes a requisição
@@ -123,8 +123,8 @@ class ClienteGenerico
      */
     public function run()
     {
-        $this->xml = curl_exec($this->curl);
-        $this->info = curl_getinfo($this->curl); 
+        $this->content = curl_exec($this->curl);
+        $this->info = curl_getinfo($this->curl);
         curl_close($this->curl);
     }
     
@@ -137,7 +137,14 @@ class ClienteGenerico
      */
     public function getInfo()
     {
-        return $this->info;
+        $raw = $this->info;
+
+        return [
+            'raw_info'      => $raw,
+            'status'        => $raw['http_code'],
+            'time'          => round($raw['total_time'] * 1000) . ' ms',
+            'size'          => round($raw['size_upload'] / 1024, 2) . ' KB',
+        ];
     }
 
     /**
@@ -147,21 +154,21 @@ class ClienteGenerico
      */
     public function getResponse()
     {
-        $status = $this->getInfo()['http_code'];
+        $status = $this->getInfo()['raw_info']['http_code'];
         
-        if($status === 500 || $status === 404 || $status === 403 || !$this->xml) {
+        if($status === 500 || $status === 404 || $status === 403 || !$this->content) {
             return null;
         }
         
-        return $this->xml;
+        return $this->content;
     }
 
     /**
      * Formata o retorno do método getResponse
-     * 
-     * @return null|string se não tiver dado para transformação retorna null
+     *
+     * @return  null|string se não tiver dado para transformação retorna null
      */
-    public function formatarXML()
+    public function formatXML()
     {        
         if(!$this->getResponse()) {
             return null;
@@ -171,7 +178,7 @@ class ClienteGenerico
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML($this->getResponse());
-        
+
         return htmlentities($dom->saveXML());
     }
 }

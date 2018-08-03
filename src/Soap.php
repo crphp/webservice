@@ -57,7 +57,7 @@ class Soap
      * @param   array        $argumentos
      * @return  null|string  null = sucesso, string = erro
      */
-    public function consultar($acao, array $argumentos = null)
+    public function consult($acao, array $argumentos = null)
     {
         try {
             if(!$this->client) {
@@ -75,7 +75,7 @@ class Soap
      * 
      * @return array|null
      */
-    public function getMetodos()
+    public function getMethods()
     {
         if($this->client) {
             foreach($this->client->__getFunctions() as $metodo) {  
@@ -112,7 +112,7 @@ class Soap
      * @param string $soap
      * @return null|string se não tiver dado para transformação retorna null
      */
-    public function formatarXML($soap)
+    public function formatXML($soap)
     {
         if(!$soap) {
             return null;
