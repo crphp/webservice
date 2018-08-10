@@ -63,8 +63,8 @@ class Soap
             if(!$this->client) {
                 throw new Exception("Ocorreu um erro ao tentar chamar o serviço <b>{$acao}</b>.");
             }
-            
-            $this->client->__soapCall($acao, array($argumentos));
+
+            $this->client->__soapCall($acao, $argumentos);
         } catch (Exception $e) {
             return $e->getMessage();
         }
