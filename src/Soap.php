@@ -12,6 +12,7 @@
 
 namespace Crphp\Webservice;
 
+use \SoapVar;
 use \Exception;
 use \SoapClient;
 use \DOMDocument;
@@ -21,7 +22,7 @@ class Soap
     /**
      * Armazena uma instância de SoapClient
      *
-     * @var string 
+     * @var SoapClient
      */
     private $client;
 
@@ -30,7 +31,7 @@ class Soap
      * 
      * @param   string       $wsdl
      * @param   array        $opcoes
-     * @return  void|string  null = sucesso, string = erro
+     * @return  void|string  void = sucesso, string = erro
      */
     public function setWsdl($wsdl, array $opcoes = null)
     {
@@ -55,21 +56,35 @@ class Soap
     /**
      * Dispara a consulta contra o serviço informado
      * 
-     * @param   string       $servico
-     * @param   array        $argumentos
-     * @return  void|string  null = sucesso, string = erro
+     * @param   string          $servico
+     * @param   string|array    $argumentos
+     * @return  void|string     null = sucesso, string = erro
      */
-    public function consult($servico, array $argumentos = null)
+    public function doRequest($servico, $argumentos)
     {
         try {
             if(!$this->client) {
                 throw new Exception("Ocorreu um erro ao tentar chamar o serviço <b>{$servico}</b>.");
             }
 
+            if(is_string($argumentos)) {
+                $argumentos = [new SoapVar($argumentos, XSD_ANYXML)];
+            }
+
             $this->client->__soapCall($servico, $argumentos);
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    /**
+     * Retorna o cabeçalho HTTP da resposta enviada pelo webservice
+     *
+     * @return null|string
+     */
+    public function getResponseHeader()
+    {
+        return ($this->client) ? $this->client->__getLastResponseHeaders() : null;
     }
 
     /**
@@ -84,6 +99,7 @@ class Soap
                 $array = explode(' ', substr($metodo, 0, strpos($metodo, '(')));
                 $metodos[] = end($array);
             }
+
             return $metodos;
         }
     }
@@ -91,7 +107,7 @@ class Soap
     /**
      * Retorna o XML enviado
      * 
-     * @return string|null em caso de sucesso retorna string, para erro retorna null
+     * @return string|null  em caso de sucesso retorna string, para erro retorna null
      */
     public function getRequest()
     {
@@ -101,7 +117,7 @@ class Soap
     /**
      * Retorna o XML recebido
      * 
-     * @return string|null em caso de sucesso retorna string, para erro retorna null
+     * @return string|null  em caso de sucesso retorna string, para erro retorna null
      */
     public function getResponse()
     {
@@ -112,7 +128,7 @@ class Soap
      * Converte string para o formato XML
      * 
      * @param string $soap
-     * @return null|string se não tiver dado para transformação retorna null
+     * @return null|string  se não tiver dado para transformação retorna null
      */
     public function formatXML($soap)
     {

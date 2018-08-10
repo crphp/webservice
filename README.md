@@ -29,8 +29,8 @@ As palavras-chave "DEVE", "NÃO DEVE", "REQUER", "DEVERIA", "NÃO DEVERIA", "POD
     - [x] Formatar XML
 
 ## 3 - Requisitos (módulos)
-- REQUER Curl
-- REQUER Soap
+- REQUER ext-curl
+- REQUER ext-soap
 
 Obs: Os módulos acima devem está ativos no "php.ini"
 
@@ -68,10 +68,13 @@ $obj->setURL('http://endereco_do_webservice');
 $obj->setRequest($xml);
 $obj->run();
 
+//Retorna um array contendo o cabeçalho da resposta
+//$obj->getInfo();
+
 if($obj->getResponse()) {
     // Perfumaria
     echo '<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>';
-    echo "<pre class='prettyprint' >" . $obj->formatXML() . "</pre>";
+    echo '<pre class="prettyprint">' . $obj->formatXML() . '</pre>';
 }
 ```
 
@@ -79,9 +82,13 @@ if($obj->getResponse()) {
 ```php
 use Crphp\Webservice\Soap;
 
+//No lugar deste array pode ser passada uma string contendo o xml
 $args = [
             'tag1_exemplo'   => 'valor1',
-            'tag2_exemplo'   => 'valor2'
+            'tag2_exemplo'   => 'valor2',
+            'no_pai' => [
+                'no_filho' => 'valor1',
+            ]
 ];
  
 $obj = new Soap;
@@ -89,14 +96,18 @@ if($erro = $obj->setWsdl('endereco_do_wsdl')) {
     exit($erro);
 }
 
-// Retorna os métodos expostos pelo WSDL
+// Retorna um array com a lista de serviços contida no WSDL
 // $obj->getMethods();
 
 // Se o retorno for null então significa que a consulta não foi realizada
-if(!$erro = $obj->consult('nomeServico', $args)) {
+if(!$erro = $obj->doRequest('nomeServico', $args)) {
     // Perfumaria
     echo '<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>';
     echo "<pre class='prettyprint' >" . $obj->formatXML($obj->getResponse()) . "</pre>";
+    
+    // Retorna uma string contendo o cabeçalho da resposta http
+    // Obs: Só retorna valor se doRequest já tiver sido chamado
+    // $obj->getHeader();
 } else {
     echo $erro;
 }
