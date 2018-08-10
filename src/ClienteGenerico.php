@@ -40,7 +40,7 @@ class ClienteGenerico
     /**
      * Atribui alguns valores considerados padrão
      * 
-     * @return null
+     * @return void
      */
     public function __construct()
     {
@@ -56,7 +56,7 @@ class ClienteGenerico
      * 
      * @param   string  $url
      * @param   int     $timeout
-     * @return  null
+     * @return  void
      */    
     public function setURL($url, $timeout = 30)
     {
@@ -68,7 +68,7 @@ class ClienteGenerico
      * Define o agente a ser utilizado
      * 
      * @param   string $agente
-     * @return  null
+     * @return  void
      */  
     public function setAgent($agente = "PHP ClienteGenerico")
     {
@@ -80,7 +80,7 @@ class ClienteGenerico
      * 
      * @param   string  $post
      * @param   array   $header
-     * @return  null
+     * @return  void
      */
     public function setRequest($post = null, array $header = null)
     {
@@ -107,7 +107,7 @@ class ClienteGenerico
      * @param   bool  $redirect
      * @param   int   $numRedirect
      * @param   bool  $refresh
-     * @return  null
+     * @return  void
      */  
     public function setRedirect($redirect = true, $numRedirect = 5, $refresh = true)
     {
@@ -119,7 +119,7 @@ class ClienteGenerico
     /**
      * Executa a consulta a URL alvo
      * 
-     * @return null
+     * @return void
      */
     public function run()
     {

@@ -30,7 +30,7 @@ class Soap
      * 
      * @param   string       $wsdl
      * @param   array        $opcoes
-     * @return  null|string  null = sucesso, string = erro
+     * @return  void|string  null = sucesso, string = erro
      */
     public function setWsdl($wsdl, array $opcoes = null)
     {
@@ -57,7 +57,7 @@ class Soap
      * 
      * @param   string       $servico
      * @param   array        $argumentos
-     * @return  null|string  null = sucesso, string = erro
+     * @return  void|string  null = sucesso, string = erro
      */
     public function consult($servico, array $argumentos = null)
     {
@@ -75,7 +75,7 @@ class Soap
     /**
      * Retorna os métodos expostos pelo WSDL
      * 
-     * @return array|null
+     * @return array|void
      */
     public function getMethods()
     {
@@ -91,7 +91,7 @@ class Soap
     /**
      * Retorna o XML enviado
      * 
-     * @return string|void em caso de sucesso retorna string, para erro retorna null
+     * @return string|null em caso de sucesso retorna string, para erro retorna null
      */
     public function getRequest()
     {
@@ -101,7 +101,7 @@ class Soap
     /**
      * Retorna o XML recebido
      * 
-     * @return string|void em caso de sucesso retorna string, para erro retorna null
+     * @return string|null em caso de sucesso retorna string, para erro retorna null
      */
     public function getResponse()
     {
