@@ -39,7 +39,9 @@ class Soap
                 'cache_wsdl' => 'WSDL_CACHE_NONE',
                 'soap_version' => 'SOAP_1_2',
                 'trace' => 1,
-                'encoding' => 'UTF-8'
+                'encoding' => 'UTF-8',
+                // Corrige um problema onde era retornado o erro: Could not connect to host
+                'location' => substr($wsdl, 0, -5)
             ];
         }
 
@@ -53,18 +55,18 @@ class Soap
     /**
      * Dispara a consulta contra o serviço informado
      * 
-     * @param   string       $acao
+     * @param   string       $servico
      * @param   array        $argumentos
      * @return  null|string  null = sucesso, string = erro
      */
-    public function consult($acao, array $argumentos = null)
+    public function consult($servico, array $argumentos = null)
     {
         try {
             if(!$this->client) {
-                throw new Exception("Ocorreu um erro ao tentar chamar o serviço <b>{$acao}</b>.");
+                throw new Exception("Ocorreu um erro ao tentar chamar o serviço <b>{$servico}</b>.");
             }
 
-            $this->client->__soapCall($acao, $argumentos);
+            $this->client->__soapCall($servico, $argumentos);
         } catch (Exception $e) {
             return $e->getMessage();
         }
