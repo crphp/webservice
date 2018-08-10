@@ -15,7 +15,10 @@
         }
     ],
     "require": {
-        "php": ">=5.5.12"
+        "php": ">=5.5.12",
+        "ext-curl": "*",
+        "ext-soap": "*",
+        "ext-dom": "*"
     },
     "autoload": {
         "psr-4": {
