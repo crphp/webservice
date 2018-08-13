@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  Classe genérica de interação com webservice
+ *  Classe genérica de interação com webservice.
  * 
  * @package     crphp
  * @subpackage  webservice
@@ -17,28 +17,28 @@ use \DOMDocument;
 class ClienteGenerico
 {
     /**
-     * Armazena uma instância de Curl
+     * Armazena uma instância de Curl.
      * 
      * @var object
      */
     private $curl;
     
     /**
-     * Armazena o conteúdo retornado pela consulta
+     * Armazena o conteúdo retornado pela consulta.
      *
      * @var string
      */
     private $content;
     
     /**
-     * Armazena as informações referentes a requisição
+     * Armazena as informações referentes a requisição.
      * 
      * @var array
      */
     private $info;
 
     /**
-     * Atribui alguns valores considerados padrão
+     * Atribui alguns valores considerados padrão.
      * 
      * @return void
      */
@@ -52,7 +52,7 @@ class ClienteGenerico
 
     /**
      * Define a URL alvo e o tempo máximo do pedido, contando desde o tempo de 
-     * conexão até o retorno da requisição
+     * conexão até o retorno da requisição.
      * 
      * @param   string  $url
      * @param   int     $timeout
@@ -65,7 +65,7 @@ class ClienteGenerico
     }
 
     /**
-     * Define o agente a ser utilizado
+     * Define o agente a ser utilizado.
      * 
      * @param   string $agente
      * @return  void
@@ -76,7 +76,7 @@ class ClienteGenerico
     }
 
     /**
-     * Adiciona o conteúdo e atribui um cabeçalho a requisição
+     * Adiciona o conteúdo e atribui um cabeçalho a requisição.
      * 
      * @param   string  $post
      * @param   array   $header
@@ -102,7 +102,7 @@ class ClienteGenerico
     /**
      * Define regras de redirecionamento de URL, tais como se deve serguir 
      * redirecionamentos, total de redirecionamentos aceitos e se deve ser 
-     * aplicado refresh caso um redirect seja seguido
+     * aplicado refresh caso um redirect seja seguido.
      * 
      * @param   bool  $redirect
      * @param   int   $numRedirect
@@ -117,7 +117,7 @@ class ClienteGenerico
     }
 
     /**
-     * Executa a consulta a URL alvo
+     * Executa a consulta a URL alvo.
      * 
      * @return void
      */
@@ -129,7 +129,7 @@ class ClienteGenerico
     }
     
     /**
-     * Informações da requisição obtidos do método curl_getinfo
+     * Informações da requisição obtidos do método curl_getinfo.
      * 
      * @see http://php.net/manual/pt_BR/function.curl-getinfo.php
      * 
@@ -148,7 +148,7 @@ class ClienteGenerico
     }
 
     /**
-     * Retorna o output devolvido pelo servidor alvo
+     * Retorna o output devolvido pelo servidor alvo.
      * 
      * @return null|string em caso de sucesso retorna vazio, para erro retorna string
      */
@@ -164,7 +164,7 @@ class ClienteGenerico
     }
 
     /**
-     * Formata o retorno do método getResponse
+     * Formata o retorno do método getResponse.
      *
      * @return  null|string se não tiver dado para transformação retorna null
      */

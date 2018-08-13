@@ -1,8 +1,8 @@
 {
     "name": "crphp/webservice",
     "type": "library",
-    "description": "Biblioteca genérica para consumir webservice.",
-    "keywords": ["webservice"],
+    "description": "Biblioteca utilizada para se consumir webservice.",
+    "keywords": ["webservice", "soap", "curl", "dom"],
     "license": "MIT",
     "support": {
         "issues": "https://github.com/crphp/webservice/issues",

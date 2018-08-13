@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Classe de interação com interface soap
+ * Classe de interação com interface soap.
  * 
  * @package     crphp
  * @subpackage  webservice
@@ -20,14 +20,14 @@ use \DOMDocument;
 class Soap
 {
     /**
-     * Armazena uma instância de SoapClient
+     * Armazena uma instância de SoapClient.
      *
      * @var SoapClient
      */
     private $client;
 
     /**
-     * Consulta o WSDL informado
+     * Consulta o WSDL informado.
      * 
      * @param   string       $wsdl
      * @param   array        $opcoes
@@ -54,7 +54,7 @@ class Soap
     }
         
     /**
-     * Dispara a consulta contra o serviço informado
+     * Dispara a consulta contra o serviço informado.
      * 
      * @param   string          $servico
      * @param   string|array    $argumentos
@@ -78,7 +78,7 @@ class Soap
     }
 
     /**
-     * Retorna o cabeçalho HTTP da resposta enviada pelo webservice
+     * Retorna o cabeçalho HTTP da resposta enviada pelo webservice.
      *
      * @return null|string
      */
@@ -88,7 +88,7 @@ class Soap
     }
 
     /**
-     * Retorna os métodos expostos pelo WSDL
+     * Retorna os métodos expostos pelo WSDL.
      * 
      * @return array|void
      */
@@ -105,7 +105,7 @@ class Soap
     }
 
     /**
-     * Retorna o XML enviado
+     * Retorna o XML enviado.
      * 
      * @return string|null  em caso de sucesso retorna string, para erro retorna null
      */
@@ -115,7 +115,7 @@ class Soap
     }
 
     /**
-     * Retorna o XML recebido
+     * Retorna o XML recebido.
      * 
      * @return string|null  em caso de sucesso retorna string, para erro retorna null
      */
@@ -125,7 +125,7 @@ class Soap
     }
 
     /**
-     * Converte string para o formato XML
+     * Converte string para o formato XML.
      * 
      * @param string $soap
      * @return null|string  se não tiver dado para transformação retorna null

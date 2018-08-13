@@ -1,6 +1,11 @@
 # crphp/webservice
+
+<a href="https://packagist.org/packages/crphp/webservice"><img src="https://poser.pugx.org/crphp/webservice/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/crphp/webservice"><img src="https://poser.pugx.org/crphp/webservice/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/crphp/webservice"><img src="https://poser.pugx.org/crphp/webservice/license.svg" alt="License"></a>
+
 Está é uma biblioteca básica para se consumir um webservice. Este pacote permite 
-o consumo via classe SoapClient ou via classe genéria construida com CURL.
+o consumo via classe **SoapClient** ou via classe genéria **ClienteGenerico** construida com *CURL*.
 
 Está biblioteca segue os padrões descritos na [PSR-2](http://www.php-fig.org/psr/psr-2/), logo, 
 isso implica que a mesma está em conformidade com a [PSR-1](http://www.php-fig.org/psr/psr-1/).
@@ -17,22 +22,26 @@ As palavras-chave "DEVE", "NÃO DEVE", "REQUER", "DEVERIA", "NÃO DEVERIA", "POD
 1. [Licença (MIT)](#licenca)
 
 ## 1 - <a id="referencias"></a>Referências
+
  - [PSR-1](http://www.php-fig.org/psr/psr-1/)
  - [PSR-2](http://www.php-fig.org/psr/psr-2/)
  - [RFC 2119](http://tools.ietf.org/html/rfc2119). Tradução livre [RFC 2119 pt-br](http://rfc.pt.webiwg.org/rfc2119)
 
 ## 2 - <a id="funcionalidades"></a>Funcionalidades
+
 - [x] Consumir webservice
-    - [x] Request XML
-    - [x] Response XML
-    - [x] Obter lista de métodos/serviços
+    - [x] Realizar requisições (Request)
+    - [x] Intercepctar respostas (Response)
+    - [x] Obter lista de serviços listados no WSDL
     - [x] Formatar XML
 
 ## 3 - Requisitos (módulos)
-- REQUER ext-curl
-- REQUER ext-soap
 
-Obs: Os módulos acima devem está ativos no "php.ini"
+Os módulos abaixos já estão definidos no arquivo composer.json, isso significa que serão validados automaticamente.
+
+ - REQUER ext-curl
+ - REQUER ext-soap
+ - REQUER ext-dom
 
 ## 4 - <a id="webservice"></a>Baixando o pacote crphp/webservice para o servidor
 
@@ -114,4 +123,5 @@ if(!$erro = $obj->doRequest('nomeServico', $args)) {
 ```
 
 ## 6 - <a id="licenca">Licença (MIT)
-Leia o arquivo de licença para maiores informações.
+
+Todo o conteúdo presente neste diretório segue o que determina a licença [MIT](https://github.com/fabiojaniolima/laraboot/blob/master/LICENSE).
