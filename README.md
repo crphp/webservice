@@ -21,13 +21,13 @@ As palavras-chave "DEVE", "NÃO DEVE", "REQUER", "DEVERIA", "NÃO DEVERIA", "POD
 1. [Exemplos de uso](#exemplos)
 1. [Licença (MIT)](#licenca)
 
-## 1 - <a id="referencias"></a>Referências
+## 1 - <a name="referencias"></a>Referências
 
  - [PSR-1](http://www.php-fig.org/psr/psr-1/)
  - [PSR-2](http://www.php-fig.org/psr/psr-2/)
  - [RFC 2119](http://tools.ietf.org/html/rfc2119) (tradução livre [RFC 2119 pt-br](http://rfc.pt.webiwg.org/rfc2119))
 
-## 2 - <a id="funcionalidades"></a>Funcionalidades
+## 2 - <a name="funcionalidades"></a>Funcionalidades
 
 - [x] Consumir webservice
     - [x] Realizar requisições (Request)
@@ -35,7 +35,7 @@ As palavras-chave "DEVE", "NÃO DEVE", "REQUER", "DEVERIA", "NÃO DEVERIA", "POD
     - [x] Obter lista de serviços listados no WSDL
     - [x] Formatar XML
 
-## 3 - Requisitos (módulos)
+## 3 - <a name="requisitos"></a>Requisitos (módulos)
 
 Os módulos abaixos já estão definidos no arquivo composer.json, isso significa que serão validados automaticamente.
 
@@ -43,7 +43,7 @@ Os módulos abaixos já estão definidos no arquivo composer.json, isso signific
  - REQUER ext-soap
  - REQUER ext-dom
 
-## 4 - <a id="webservice"></a>Baixando o pacote crphp/webservice para o servidor
+## 4 - <a name="webservice"></a>Baixando o pacote crphp/webservice para o servidor
 
 Para a etapa abaixo estou pressupondo que você tenha o composer instalado e saiba utilizá-lo:
 ```
@@ -57,7 +57,7 @@ composer create-project --prefer-dist crphp/webservice nome_projeto
 
 Caso ainda não tenha o composer instalado, obtenha este em: https://getcomposer.org/download/
 
-## 5 - <a id="exemplos"></a>Exemplos de uso
+## 5 - <a name="exemplos"></a>Exemplos de uso
 
 **Utilizando a classe ClienteGenerico**:
 ```php
@@ -121,6 +121,6 @@ if(!$erro = $obj->doRequest('nomeServico', $args)) {
 }
 ```
 
-## 6 - <a id="licenca">Licença (MIT)
+## 6 - <a name="licenca">Licença (MIT)
 
 Todo o conteúdo presente neste diretório segue o que determina a licença [MIT](https://github.com/fabiojaniolima/laraboot/blob/master/LICENSE).
