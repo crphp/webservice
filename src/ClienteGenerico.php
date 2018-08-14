@@ -56,6 +56,7 @@ class ClienteGenerico
      * 
      * @param   string  $url
      * @param   int     $timeout
+     *
      * @return  \Crphp\Webservice\ClienteGenerico
      */    
     public function setURL($url, $timeout = 30)
@@ -69,7 +70,8 @@ class ClienteGenerico
     /**
      * Define o agente a ser utilizado.
      * 
-     * @param   string $agente
+     * @param   string  $agente
+     *
      * @return  \Crphp\Webservice\ClienteGenerico
      */  
     public function setAgent($agente = "PHP ClienteGenerico")
@@ -85,6 +87,7 @@ class ClienteGenerico
      * @param   string  $post
      * @param   array   $header
      * @param   array   $increment
+     *
      * @return  \Crphp\Webservice\ClienteGenerico
      */
     public function setRequest($post = null, array $header = null, array $increment = null)
@@ -118,6 +121,7 @@ class ClienteGenerico
      * @param   bool  $redirect
      * @param   int   $numRedirect
      * @param   bool  $refresh
+     *
      * @return  \Crphp\Webservice\ClienteGenerico
      */  
     public function setRedirect($redirect = true, $numRedirect = 5, $refresh = true)
@@ -146,7 +150,7 @@ class ClienteGenerico
      * 
      * @see http://php.net/manual/pt_BR/function.curl-getinfo.php
      * 
-     * @return array
+     * @return  array
      */
     public function getInfo()
     {
@@ -163,7 +167,7 @@ class ClienteGenerico
     /**
      * Retorna o output devolvido pelo servidor alvo.
      * 
-     * @return null|string em caso de sucesso retorna vazio, para erro retorna string
+     * @return  null|string     Em caso de sucesso retorna vazio, para erro retorna string
      */
     public function getResponse()
     {
@@ -179,7 +183,7 @@ class ClienteGenerico
     /**
      * Formata o retorno do método getResponse.
      *
-     * @return  null|string se não tiver dado para transformação retorna null
+     * @return  null|string     Se não tiver dado para transformação retorna null
      */
     public function formatXML()
     {        

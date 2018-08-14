@@ -31,6 +31,7 @@ class Soap
      * 
      * @param   string       $wsdl
      * @param   array        $opcoes
+     *
      * @return  void|string  void = sucesso, string = erro
      */
     public function setWsdl($wsdl, array $opcoes = null)
@@ -58,6 +59,7 @@ class Soap
      * 
      * @param   string          $servico
      * @param   string|array    $argumentos
+     *
      * @return  void|string     null = sucesso, string = erro
      */
     public function doRequest($servico, $argumentos)
@@ -80,8 +82,9 @@ class Soap
     /**
      * Retorna o cabeçalho HTTP da resposta enviada pelo webservice.
      *
-     * @param bool          $nl2br
-     * @return null|string
+     * @param   bool          $nl2br
+     *
+     * @return  null|string
      */
     public function getResponseHeader($nl2br = true)
     {
@@ -98,7 +101,7 @@ class Soap
     /**
      * Retorna os métodos expostos pelo WSDL.
      * 
-     * @return array|void
+     * @return  array|void
      */
     public function getMethods()
     {
@@ -115,7 +118,7 @@ class Soap
     /**
      * Retorna o XML enviado.
      * 
-     * @return string|null  em caso de sucesso retorna string, para erro retorna null
+     * @return  string|null  Em caso de sucesso retorna string, para erro retorna null
      */
     public function getRequest()
     {
@@ -125,7 +128,7 @@ class Soap
     /**
      * Retorna o XML recebido.
      * 
-     * @return string|null  em caso de sucesso retorna string, para erro retorna null
+     * @return string|null  Em caso de sucesso retorna string, para erro retorna null
      */
     public function getResponse()
     {
@@ -136,7 +139,8 @@ class Soap
      * Converte string para o formato XML.
      * 
      * @param string $soap
-     * @return null|string  se não tiver dado para transformação retorna null
+     *
+     * @return null|string  Se não tiver dado para transformação retorna null
      */
     public function formatXML($soap)
     {
