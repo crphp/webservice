@@ -30,14 +30,14 @@ class Soap
      * Consulta o WSDL informado.
      * 
      * @param   string       $wsdl
-     * @param   array        $opcoes
+     * @param   array        $options
      *
      * @return  void|string  void = sucesso, string = erro
      */
-    public function setWsdl($wsdl, array $opcoes = null)
+    public function setWsdl($wsdl, array $options = null)
     {
-        if (!$opcoes) {
-            $opcoes = [
+        if (!$options) {
+            $options = [
                 'cache_wsdl' => 'WSDL_CACHE_NONE',
                 'soap_version' => 'SOAP_1_2',
                 'trace' => 1,
@@ -48,7 +48,7 @@ class Soap
         }
 
         try {
-            $this->client = new SoapClient($wsdl, $opcoes);
+            $this->client = new SoapClient($wsdl, $options);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -57,22 +57,22 @@ class Soap
     /**
      * Dispara a consulta contra o serviço informado.
      * 
-     * @param   string          $servico
-     * @param   string|array    $argumentos
+     * @param   string          $service
+     * @param   string|array    $arguments
      *
      * @return  void|string     null = sucesso, string = erro
      */
-    public function doRequest($servico, $argumentos)
+    public function doRequest($service, $arguments)
     {
         try {
-            if(!$this->client) {
-                throw new Exception("Ocorreu um erro ao tentar chamar o serviço <b>{$servico}</b>.");
+            if (!$this->client) {
+                throw new Exception("Ocorreu um erro ao tentar chamar o serviço <b>{$service}</b>.");
             }
 
-            if(is_string($argumentos)) {
+            if (is_string($arguments)) {
                 /* @see http://php.net/manual/pt_BR/function.libxml-use-internal-errors.php */
                 libxml_use_internal_errors(true);
-                $xml = simplexml_load_string($argumentos);
+                $xml = simplexml_load_string($arguments);
 
                 if ($xml === false) {
                     foreach (libxml_get_errors() as $error) {
@@ -81,13 +81,13 @@ class Soap
                 }
 
                 if ($xml = $xml->children('soapenv', true)) {
-                    $argumentos = $xml->Body->children()->asXML();
+                    $arguments = $xml->Body->children()->asXML();
                 }
 
-                $argumentos = [new SoapVar($argumentos, XSD_ANYXML)];
+                $arguments = [new SoapVar($arguments, XSD_ANYXML)];
             }
 
-            $this->client->__soapCall($servico, $argumentos);
+            $this->client->__soapCall($service, $arguments);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -102,7 +102,7 @@ class Soap
      */
     public function getResponseHeader($nl2br = true)
     {
-        if($this->client) {
+        if ($this->client) {
             $responseHeader = $this->client->__getLastResponseHeaders();
 
             /* @see http://php.net/manual/pt_BR/function.nl2br.php Documentação para a função nlb2br */
@@ -119,13 +119,13 @@ class Soap
      */
     public function getMethods()
     {
-        if($this->client) {
-            foreach($this->client->__getFunctions() as $metodo) {  
-                $array = explode(' ', substr($metodo, 0, strpos($metodo, '(')));
-                $metodos[] = end($array);
+        if ($this->client) {
+            foreach($this->client->__getFunctions() as $service) {
+                $array = explode(' ', substr($service, 0, strpos($service, '(')));
+                $service[] = end($array);
             }
 
-            return $metodos;
+            return $service;
         }
     }
 
@@ -158,7 +158,7 @@ class Soap
      */
     public function formatXML($soap)
     {
-        if(!$soap) {
+        if (!$soap) {
             return null;
         }
 

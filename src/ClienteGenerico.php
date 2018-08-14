@@ -54,14 +54,14 @@ class ClienteGenerico
      * Define a URL alvo e o tempo máximo do pedido, contando desde o tempo de 
      * conexão até o retorno da requisição.
      * 
-     * @param   string  $url
+     * @param   string  $uri
      * @param   int     $timeout
      *
      * @return  \Crphp\Webservice\ClienteGenerico
      */    
-    public function setURL($url, $timeout = 30)
+    public function setURL($uri, $timeout = 30)
     {
-        curl_setopt($this->curl, CURLOPT_URL, $url);
+        curl_setopt($this->curl, CURLOPT_URL, $uri);
         curl_setopt($this->curl, CURLOPT_TIMEOUT, $timeout);
 
         return $this;
@@ -70,13 +70,13 @@ class ClienteGenerico
     /**
      * Define o agente a ser utilizado.
      * 
-     * @param   string  $agente
+     * @param   string  $agent
      *
      * @return  \Crphp\Webservice\ClienteGenerico
      */  
-    public function setAgent($agente = "PHP ClienteGenerico")
+    public function setAgent($agent = "PHP ClienteGenerico")
     {
-        curl_setopt($this->curl, CURLOPT_USERAGENT, $agente);
+        curl_setopt($this->curl, CURLOPT_USERAGENT, $agent);
 
         return $this;
     }
@@ -119,15 +119,15 @@ class ClienteGenerico
      * aplicado refresh caso um redirect seja seguido.
      * 
      * @param   bool  $redirect
-     * @param   int   $numRedirect
+     * @param   int   $redirectNum
      * @param   bool  $refresh
      *
      * @return  \Crphp\Webservice\ClienteGenerico
      */  
-    public function setRedirect($redirect = true, $numRedirect = 5, $refresh = true)
+    public function setRedirect($redirect = true, $redirectNum = 5, $refresh = true)
     {
         curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, $redirect);
-        curl_setopt($this->curl, CURLOPT_MAXREDIRS, $numRedirect);
+        curl_setopt($this->curl, CURLOPT_MAXREDIRS, $redirectNum);
         curl_setopt($this->curl, CURLOPT_AUTOREFERER, $refresh);
 
         return $this;
@@ -173,7 +173,7 @@ class ClienteGenerico
     {
         $status = $this->getInfo()['raw_info']['http_code'];
         
-        if($status === 500 || $status === 404 || $status === 403 || !$this->content) {
+        if ($status === 500 || $status === 404 || $status === 403 || !$this->content) {
             return null;
         }
         
@@ -187,7 +187,7 @@ class ClienteGenerico
      */
     public function formatXML()
     {        
-        if(!$this->getResponse()) {
+        if (!$this->getResponse()) {
             return null;
         }
 
