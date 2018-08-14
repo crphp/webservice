@@ -25,7 +25,7 @@ As palavras-chave "DEVE", "NÃO DEVE", "REQUER", "DEVERIA", "NÃO DEVERIA", "POD
 
  - [PSR-1](http://www.php-fig.org/psr/psr-1/)
  - [PSR-2](http://www.php-fig.org/psr/psr-2/)
- - [RFC 2119](http://tools.ietf.org/html/rfc2119). Tradução livre [RFC 2119 pt-br](http://rfc.pt.webiwg.org/rfc2119)
+ - [RFC 2119](http://tools.ietf.org/html/rfc2119) (tradução livre [RFC 2119 pt-br](http://rfc.pt.webiwg.org/rfc2119))
 
 ## 2 - <a id="funcionalidades"></a>Funcionalidades
 
@@ -72,10 +72,9 @@ $xml = '<?xml version="1.0" encoding="UTF-8"?>
 </SOAP-ENV:Envelope>';
 
 $obj = new ClienteGenerico;
-// url de teste: http://secure.smartbearsoftware.com/samples/testcomplete10/webservices/Service.asmx
-$obj->setURL('http://endereco_do_webservice');
-$obj->setRequest($xml);
-$obj->run();
+$obj->setURL('http://endereco_do_webservice')
+    ->setRequest($xml)
+    ->run();
 
 //Retorna um array contendo o cabeçalho da resposta
 //$obj->getInfo();

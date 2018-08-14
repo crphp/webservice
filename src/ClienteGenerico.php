@@ -56,23 +56,27 @@ class ClienteGenerico
      * 
      * @param   string  $url
      * @param   int     $timeout
-     * @return  void
+     * @return  \Crphp\Webservice\ClienteGenerico
      */    
     public function setURL($url, $timeout = 30)
     {
         curl_setopt($this->curl, CURLOPT_URL, $url);
         curl_setopt($this->curl, CURLOPT_TIMEOUT, $timeout);
+
+        return $this;
     }
 
     /**
      * Define o agente a ser utilizado.
      * 
      * @param   string $agente
-     * @return  void
+     * @return  \Crphp\Webservice\ClienteGenerico
      */  
     public function setAgent($agente = "PHP ClienteGenerico")
     {
         curl_setopt($this->curl, CURLOPT_USERAGENT, $agente);
+
+        return $this;
     }
 
     /**
@@ -80,7 +84,7 @@ class ClienteGenerico
      * 
      * @param   string  $post
      * @param   array   $header
-     * @return  void
+     * @return  \Crphp\Webservice\ClienteGenerico
      */
     public function setRequest($post = null, array $header = null)
     {
@@ -90,13 +94,15 @@ class ClienteGenerico
                 "Accept: text/xml",
                 "Cache-Control: no-cache",
                 "Pragma: no-cache",
-                "Content-length: " . strlen($post)
+                "Content-length: " . strlen($post),
             ];
         }
 
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, $header);
         curl_setopt($this->curl, CURLOPT_POST, true);
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $post);
+
+        return $this;
     }
 
     /**
@@ -107,13 +113,15 @@ class ClienteGenerico
      * @param   bool  $redirect
      * @param   int   $numRedirect
      * @param   bool  $refresh
-     * @return  void
+     * @return  \Crphp\Webservice\ClienteGenerico
      */  
     public function setRedirect($redirect = true, $numRedirect = 5, $refresh = true)
     {
         curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, $redirect);
         curl_setopt($this->curl, CURLOPT_MAXREDIRS, $numRedirect);
         curl_setopt($this->curl, CURLOPT_AUTOREFERER, $refresh);
+
+        return $this;
     }
 
     /**
