@@ -84,9 +84,10 @@ class ClienteGenerico
      * 
      * @param   string  $post
      * @param   array   $header
+     * @param   array   $increment
      * @return  \Crphp\Webservice\ClienteGenerico
      */
-    public function setRequest($post = null, array $header = null)
+    public function setRequest($post = null, array $header = null, array $increment = null)
     {
         if (!$header) {
             $header = [
@@ -96,6 +97,10 @@ class ClienteGenerico
                 "Pragma: no-cache",
                 "Content-length: " . strlen($post),
             ];
+
+            if ($increment) {
+                $header = array_merge($header, $increment);
+            }
         }
 
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, $header);
