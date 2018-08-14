@@ -70,6 +70,20 @@ class Soap
             }
 
             if(is_string($argumentos)) {
+                /* @see http://php.net/manual/pt_BR/function.libxml-use-internal-errors.php */
+                libxml_use_internal_errors(true);
+                $xml = simplexml_load_string($argumentos);
+
+                if ($xml === false) {
+                    foreach (libxml_get_errors() as $error) {
+                        throw new Exception('Ocorreu um erro ao processar o XML de envio: ' . $error->message);
+                    }
+                }
+
+                if ($xml = $xml->children('soapenv', true)) {
+                    $argumentos = $xml->Body->children()->asXML();
+                }
+
                 $argumentos = [new SoapVar($argumentos, XSD_ANYXML)];
             }
 
@@ -147,7 +161,7 @@ class Soap
         if(!$soap) {
             return null;
         }
-        
+
         $dom = new DOMDocument;
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
