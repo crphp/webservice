@@ -80,11 +80,19 @@ class Soap
     /**
      * Retorna o cabeçalho HTTP da resposta enviada pelo webservice.
      *
+     * @param bool          $nl2br
      * @return null|string
      */
-    public function getResponseHeader()
+    public function getResponseHeader($nl2br = true)
     {
-        return ($this->client) ? $this->client->__getLastResponseHeaders() : null;
+        if($this->client) {
+            $responseHeader = $this->client->__getLastResponseHeaders();
+
+            /* @see http://php.net/manual/pt_BR/function.nl2br.php Documentação para a função nlb2br */
+            return ($nl2br) ? nl2br($responseHeader) : $responseHeader;
+        }
+
+        return null;
     }
 
     /**
