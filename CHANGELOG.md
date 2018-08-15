@@ -26,7 +26,7 @@
 - Pequeno ajuste no `README.md` [(3d5134b)](https://github.com/crphp/webservice/commit/3d5134b47d6aba4b45e0516be97da63c9add0fb1)
 - Métodos e variáveis alteradas de português para inglês [(576d937)](https://github.com/crphp/webservice/commit/576d937bb611b7925173c6ead5a9ebcb4f3486fe)
 
-## v1.2.0 (2018-08-02)
+## v1.0.1 (2018-08-02)
 
 ### Fixed
 

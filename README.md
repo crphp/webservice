@@ -121,6 +121,6 @@ if(!$erro = $obj->doRequest('nomeServico', $args)) {
 }
 ```
 
-## 6 - <a name="licenca">Licença (MIT)
+## 6 - <a name="licenca"></a>Licença (MIT)
 
 Todo o conteúdo presente neste diretório segue o que determina a licença [MIT](https://github.com/fabiojaniolima/laraboot/blob/master/LICENSE).
