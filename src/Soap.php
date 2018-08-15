@@ -29,17 +29,19 @@ class Soap
     /**
      * Consulta o WSDL informado.
      * 
-     * @param   string       $wsdl
-     * @param   array        $options
+     * @param   string      $wsdl
+     * @param   array       $header
+     * @param   array       $increment
      *
      * @return  void|string  void = sucesso, string = erro
      */
-    public function setWsdl($wsdl, array $options = null)
+    public function setWsdl($wsdl, array $header = null, array $increment = null)
     {
-        if (!$options) {
-            $options = [
+        if (!$header) {
+            $header = [
                 'cache_wsdl' => 'WSDL_CACHE_NONE',
                 'soap_version' => 'SOAP_1_2',
+                'user_agent' => 'PHP/SOAP',
                 'trace' => 1,
                 'encoding' => 'UTF-8',
                 // Corrige um problema onde era retornado o erro: Could not connect to host
@@ -47,8 +49,12 @@ class Soap
             ];
         }
 
+        if ($increment) {
+            $header = array_merge($header, $increment);
+        }
+
         try {
-            $this->client = new SoapClient($wsdl, $options);
+            $this->client = new SoapClient($wsdl, $header);
         } catch (Exception $e) {
             return $e->getMessage();
         }
