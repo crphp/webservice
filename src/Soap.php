@@ -15,10 +15,12 @@ namespace Crphp\Webservice;
 use \SoapVar;
 use \Exception;
 use \SoapClient;
-use \DOMDocument;
+use Crphp\Webservice\Traits\FormatarXML;
 
 class Soap
 {
+    use FormatarXML;
+
     /**
      * Armazena uma instância de SoapClient.
      *
@@ -153,26 +155,5 @@ class Soap
     public function getResponse()
     {
         return ($this->client) ? $this->client->__getLastResponse() : null;
-    }
-
-    /**
-     * Converte string para o formato XML.
-     * 
-     * @param string $soap
-     *
-     * @return null|string  Se não tiver dado para transformação retorna null
-     */
-    public function formatXML($soap)
-    {
-        if (!$soap) {
-            return null;
-        }
-
-        $dom = new DOMDocument;
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = true;
-        $dom->loadXML($soap);
-        
-        return htmlentities($dom->saveXML());
     }
 }

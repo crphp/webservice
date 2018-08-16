@@ -12,10 +12,12 @@
 
 namespace Crphp\Webservice;
 
-use \DOMDocument;
+use Crphp\Webservice\Traits\FormatarXML;
 
 class ClienteGenerico
 {
+    use FormatarXML;
+
     /**
      * Armazena uma instância de Curl.
      * 
@@ -178,24 +180,5 @@ class ClienteGenerico
         }
         
         return $this->content;
-    }
-
-    /**
-     * Formata o retorno do método getResponse.
-     *
-     * @return  null|string     Se não tiver dado para transformação retorna null
-     */
-    public function formatXML()
-    {        
-        if (!$this->getResponse()) {
-            return null;
-        }
-
-        $dom = new DOMDocument;
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = true;
-        $dom->loadXML($this->getResponse());
-
-        return htmlentities($dom->saveXML());
     }
 }

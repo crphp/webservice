@@ -60,7 +60,7 @@ Caso ainda não tenha o composer instalado, obtenha este em: https://getcomposer
 ## 5 - <a name="exemplos"></a>Exemplos de uso
 
 **Utilizando a classe ClienteGenerico**:
-```php
+```
 use Crphp\Webservice\ClienteGenerico;
 
 // A esquerda do cabeçalho não pode existir espaço em branco
@@ -82,12 +82,12 @@ $obj->setURL('http://endereco_do_webservice')
 if($obj->getResponse()) {
     // Perfumaria
     echo '<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>';
-    echo '<pre class="prettyprint">' . $obj->formatXML() . '</pre>';
+    echo '<pre class="prettyprint">' . $obj->formatXML($obj->getResponse()) . '</pre>';
 }
 ```
 
 **Utilizando a classe Soap**:
-```php
+```
 use Crphp\Webservice\Soap;
 
 //No lugar deste array pode ser passada uma string contendo o xml
