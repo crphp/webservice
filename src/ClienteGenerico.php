@@ -14,7 +14,7 @@ namespace Crphp\Webservice;
 
 use Crphp\Webservice\Traits\FormatarXML;
 
-class ClienteGenerico
+class ClienteGenerico implements iRequestXML
 {
     use FormatarXML;
 
@@ -40,6 +40,20 @@ class ClienteGenerico
     private $info;
 
     /**
+     * Cabeçalho a ser enviado
+     *
+     * @var array
+     */
+    private $header;
+
+    /**
+     * Conteúdo (xml) bruto a ser enviado
+     *
+     * @var string
+     */
+    private $rawContent;
+
+    /**
      * Atribui alguns valores considerados padrão.
      * 
      * @return void
@@ -47,23 +61,24 @@ class ClienteGenerico
     public function __construct()
     {
         $this->curl = curl_init();
+
+        /** @see http://php.net/manual/pt_BR/function.curl-setopt.php */
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($this->curl, CURLINFO_HEADER_OUT, true);
+        curl_setopt($this->curl, CURLOPT_POST, true);
     }
 
     /**
-     * Define a URL alvo e o tempo máximo do pedido, contando desde o tempo de 
-     * conexão até o retorno da requisição.
-     * 
-     * @param   string  $uri
-     * @param   int     $timeout
+     * Define o tempo máximo do pedido
+     *
+     * @param   int     $timeout    Em segundos
      *
      * @return  \Crphp\Webservice\ClienteGenerico
      */    
-    public function setURL($uri, $timeout = 30)
+    public function setTimeOut($timeout = 180)
     {
-        curl_setopt($this->curl, CURLOPT_URL, $uri);
         curl_setopt($this->curl, CURLOPT_TIMEOUT, $timeout);
 
         return $this;
@@ -85,40 +100,64 @@ class ClienteGenerico
 
     /**
      * Adiciona o conteúdo e atribui um cabeçalho a requisição.
-     * 
-     * @param   string  $post
+     *
+     * @param   string  $target
      * @param   array   $header
      * @param   array   $increment
      *
      * @return  \Crphp\Webservice\ClienteGenerico
      */
-    public function setRequest($post = null, array $header = null, array $increment = null)
+    public function setRequest($target, array $header = null, array $increment = null)
     {
         if (!$header) {
-            $header = [
-                "Content-type: text/xml;charset=UTF-8",
-                "Accept: text/xml",
-                "Cache-Control: no-cache",
-                "Pragma: no-cache",
-                "Content-length: " . strlen($post),
+            $this->header = [
+                'Content-type: text/xml;charset=UTF-8',
+                'Accept: text/xml',
+                'Cache-Control: no-cache',
+                'Pragma: no-cache',
             ];
 
             if ($increment) {
-                $header = array_merge($header, $increment);
+                $this->header = array_merge($this->header, $increment);
             }
         }
 
-        curl_setopt($this->curl, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($this->curl, CURLOPT_POST, true);
-        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $post);
+        curl_setopt($this->curl, CURLOPT_URL, $target);
 
         return $this;
     }
 
     /**
-     * Define regras de redirecionamento de URL, tais como se deve serguir 
-     * redirecionamentos, total de redirecionamentos aceitos e se deve ser 
-     * aplicado refresh caso um redirect seja seguido.
+     * * Dispara a consulta contra o serviço informado.
+     *
+     * @param $service
+     * @param $arguments
+     *
+     * @return void
+     */
+    public function doRequest($service, $arguments)
+    {
+        $incrementHeader = [
+            'Content-length: ' . strlen($arguments),
+            'SOAPAction: ' . $service,
+        ];
+
+        $this->rawContent = $arguments;
+
+        $header = array_merge($this->header, $incrementHeader);
+
+        curl_setopt($this->curl, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $arguments);
+
+        $this->content = curl_exec($this->curl);
+        $this->info = curl_getinfo($this->curl);
+
+        curl_close($this->curl);
+    }
+
+    /**
+     * Define regras de redirecionamento de URL, tais como se deve serguir redirecionamentos, total
+     * de redirecionamentos aceitos e se deve ser aplicado refresh caso um redirect seja seguido.
      * 
      * @param   bool  $redirect
      * @param   int   $redirectNum
@@ -134,18 +173,6 @@ class ClienteGenerico
 
         return $this;
     }
-
-    /**
-     * Executa a consulta a URL alvo.
-     * 
-     * @return void
-     */
-    public function run()
-    {
-        $this->content = curl_exec($this->curl);
-        $this->info = curl_getinfo($this->curl);
-        curl_close($this->curl);
-    }
     
     /**
      * Informações da requisição obtidos do método curl_getinfo.
@@ -154,7 +181,7 @@ class ClienteGenerico
      * 
      * @return  array
      */
-    public function getInfo()
+    public function getHeader()
     {
         $raw = $this->info;
 
@@ -167,13 +194,23 @@ class ClienteGenerico
     }
 
     /**
+     * Retorna o xml submetido
+     *
+     * @return string
+     */
+    public function getRequest()
+    {
+        return $this->rawContent;
+    }
+
+    /**
      * Retorna o output devolvido pelo servidor alvo.
      * 
      * @return  null|string     Em caso de sucesso retorna vazio, para erro retorna string
      */
     public function getResponse()
     {
-        $status = $this->getInfo()['raw_info']['http_code'];
+        $status = $this->getHeader()['raw_info']['http_code'];
         
         if ($status === 500 || $status === 404 || $status === 403 || !$this->content) {
             return null;

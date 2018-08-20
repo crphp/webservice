@@ -72,17 +72,16 @@ $xml = '<?xml version="1.0" encoding="UTF-8"?>
 </SOAP-ENV:Envelope>';
 
 $obj = new ClienteGenerico;
-$obj->setURL('http://endereco_do_webservice')
-    ->setRequest($xml)
-    ->run();
+$obj->setRequest('http://endereco_do_webservice')
+    ->doRequest('nome_servico', $xml);
 
 //Retorna um array contendo o cabeçalho da resposta
-//$obj->getInfo();
+//$obj->getHeader();
 
-if($obj->getResponse()) {
+if($xml = $obj->getResponse()) {
     // Perfumaria
     echo '<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>';
-    echo '<pre class="prettyprint">' . $obj->formatXML($obj->getResponse()) . '</pre>';
+    echo '<pre class="prettyprint">' . $obj->formatXML($xml) . '</pre>';
 }
 ```
 
@@ -100,7 +99,7 @@ $args = [
 ];
  
 $obj = new Soap;
-if($erro = $obj->setWsdl('endereco_do_wsdl')) {
+if($erro = $obj->setRequest('endereco_do_wsdl')) {
     exit($erro);
 }
 

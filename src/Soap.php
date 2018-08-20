@@ -17,7 +17,7 @@ use \Exception;
 use \SoapClient;
 use Crphp\Webservice\Traits\FormatarXML;
 
-class Soap
+class Soap implements iRequestXML
 {
     use FormatarXML;
 
@@ -37,7 +37,7 @@ class Soap
      *
      * @return  void|string  void = sucesso, string = erro
      */
-    public function setWsdl($wsdl, array $header = null, array $increment = null)
+    public function setRequest($wsdl, array $header = null, array $increment = null)
     {
         if (!$header) {
             $header = [
@@ -108,7 +108,7 @@ class Soap
      *
      * @return  null|string
      */
-    public function getResponseHeader($nl2br = true)
+    public function getHeader($nl2br = true)
     {
         if ($this->client) {
             $responseHeader = $this->client->__getLastResponseHeaders();
