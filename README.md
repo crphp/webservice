@@ -112,8 +112,6 @@ if(!$erro = $obj->doRequest('nomeServico', $args)) {
     echo '<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>';
     echo "<pre class='prettyprint' >" . $obj->formatXML($obj->getResponse()) . "</pre>";
     
-    // Retorna uma string contendo o cabeçalho da resposta http
-    // Obs: Só retorna valor se doRequest já tiver sido chamado
     /**
      * Retorna uma string contendo o cabeçalho da resposta http do webservice. Deve vir depois de doRequest()
      *
