@@ -1,5 +1,22 @@
 # Release Notes
 
+## v3.0.0 (2018-08-21)
+
+### Added
+
+- `formatXML` movido para a *trait* `FormatarXML` [(6e7f11d)](https://github.com/crphp/webservice/commit/6e7f11d03cab8d0dafbee24ed210fb600a964f05)
+
+### Changed
+
+- Criado método `xmlToArray` e adequações ao padrão **PHPDoc** [(2cb1745)](https://github.com/crphp/webservice/commit/2cb1745f6f7cde49119ead914be39cb9f4e86c81)
+- Reescrita de partes do código para utilização de uma interface comum entre as classes [(00bbcf7)](https://github.com/crphp/webservice/commit/00bbcf7ae8cac4c0f95389a355db39a157168b8c)
+- `setWsdl` aceita incremento de cabeçalho [(94617ae)](https://github.com/crphp/webservice/commit/94617ae0c69ec11729670032874fca1df7449aa1)
+- Adequação de nome de variável e estilo ap padrão **PSR-2** [(691cccb)](https://github.com/crphp/webservice/commit/691cccb3f5c0196f3a288881eefb4b03d43f1d0b)
+
+### Fixed
+
+- Correção na documentação [(b6427df)](https://github.com/crphp/webservice/commit/b6427df545e5c412803ad2b8ed61504a8ca6e618)
+
 ## v2.1.0 (2018-08-14)
 
 ### Added
