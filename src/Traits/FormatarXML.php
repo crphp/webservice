@@ -11,7 +11,7 @@ trait FormatarXML {
      *
      * @param string $xml
      *
-     * @return null|string  Se não tiver dado para transformação retorna null
+     * @return null|string  Se não tiver dado para transformação retorna null.
      */
     public function formatXML($xml)
     {

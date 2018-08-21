@@ -21,7 +21,7 @@ class ClienteGenerico implements iRequestXML
     /**
      * Armazena uma instância de Curl.
      * 
-     * @var object
+     * @var resource
      */
     private $curl;
     
@@ -40,14 +40,14 @@ class ClienteGenerico implements iRequestXML
     private $info;
 
     /**
-     * Cabeçalho a ser enviado
+     * Cabeçalho a ser enviado.
      *
      * @var array
      */
     private $header;
 
     /**
-     * Conteúdo (xml) bruto a ser enviado
+     * Conteúdo (xml) bruto a ser enviado.
      *
      * @var string
      */
@@ -71,9 +71,9 @@ class ClienteGenerico implements iRequestXML
     }
 
     /**
-     * Define o tempo máximo do pedido
+     * Define o tempo máximo do pedido.
      *
-     * @param   int     $timeout    Em segundos
+     * @param   int     $timeout    Em segundos.
      *
      * @return  \Crphp\Webservice\ClienteGenerico
      */    
@@ -194,7 +194,7 @@ class ClienteGenerico implements iRequestXML
     }
 
     /**
-     * Retorna o xml submetido
+     * Retorna o xml submetido.
      *
      * @return string
      */
@@ -206,7 +206,7 @@ class ClienteGenerico implements iRequestXML
     /**
      * Retorna o output devolvido pelo servidor alvo.
      * 
-     * @return  null|string     Em caso de sucesso retorna vazio, para erro retorna string
+     * @return  null|string     Em caso de sucesso retorna vazio, para erro retorna string.
      */
     public function getResponse()
     {

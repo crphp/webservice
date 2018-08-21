@@ -114,7 +114,12 @@ if(!$erro = $obj->doRequest('nomeServico', $args)) {
     
     // Retorna uma string contendo o cabeçalho da resposta http
     // Obs: Só retorna valor se doRequest já tiver sido chamado
-    // $obj->getHeader();
+    /**
+     * Retorna uma string contendo o cabeçalho da resposta http do webservice. Deve vir depois de doRequest()
+     *
+     * @see http://php.net/manual/pt_BR/function.nl2br.php Documentação para a função nlb2br.
+     */
+    echo nl2br($obj->getHeader());
 } else {
     echo $erro;
 }

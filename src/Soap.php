@@ -35,7 +35,7 @@ class Soap implements iRequestXML
      * @param   array       $header
      * @param   array       $increment
      *
-     * @return  void|string  void = sucesso, string = erro
+     * @return  void|string  void = sucesso, string = erro.
      */
     public function setRequest($wsdl, array $header = null, array $increment = null)
     {
@@ -46,7 +46,7 @@ class Soap implements iRequestXML
                 'user_agent' => 'PHP/SOAP',
                 'trace' => 1,
                 'encoding' => 'UTF-8',
-                // Corrige um problema onde era retornado o erro: Could not connect to host
+                /** @internal Corrige um problema onde era retornado o erro: Could not connect to host */
                 'location' => substr($wsdl, 0, -5)
             ];
         }
@@ -61,14 +61,14 @@ class Soap implements iRequestXML
             return $e->getMessage();
         }
     }
-        
+
     /**
      * Dispara a consulta contra o serviço informado.
-     * 
+     *
      * @param   string          $service
      * @param   string|array    $arguments
      *
-     * @return  void|string     null = sucesso, string = erro
+     * @return  void|string     null = sucesso, string = erro.
      */
     public function doRequest($service, $arguments)
     {
@@ -78,21 +78,7 @@ class Soap implements iRequestXML
             }
 
             if (is_string($arguments)) {
-                /* @see http://php.net/manual/pt_BR/function.libxml-use-internal-errors.php */
-                libxml_use_internal_errors(true);
-                $xml = simplexml_load_string($arguments);
-
-                if ($xml === false) {
-                    foreach (libxml_get_errors() as $error) {
-                        throw new Exception('Ocorreu um erro ao processar o XML de envio: ' . $error->message);
-                    }
-                }
-
-                if ($xml = $xml->children('soapenv', true)) {
-                    $arguments = $xml->Body->children()->asXML();
-                }
-
-                $arguments = [new SoapVar($arguments, XSD_ANYXML)];
+                $arguments = [$this->xmlToArray($arguments)];
             }
 
             $this->client->__soapCall($service, $arguments);
@@ -104,17 +90,12 @@ class Soap implements iRequestXML
     /**
      * Retorna o cabeçalho HTTP da resposta enviada pelo webservice.
      *
-     * @param   bool          $nl2br
-     *
      * @return  null|string
      */
-    public function getHeader($nl2br = true)
+    public function getHeader()
     {
         if ($this->client) {
-            $responseHeader = $this->client->__getLastResponseHeaders();
-
-            /* @see http://php.net/manual/pt_BR/function.nl2br.php Documentação para a função nlb2br */
-            return ($nl2br) ? nl2br($responseHeader) : $responseHeader;
+            return $this->client->__getLastResponseHeaders();
         }
 
         return null;
@@ -122,7 +103,7 @@ class Soap implements iRequestXML
 
     /**
      * Retorna os métodos expostos pelo WSDL.
-     * 
+     *
      * @return  array|void
      */
     public function getMethods()
@@ -139,8 +120,8 @@ class Soap implements iRequestXML
 
     /**
      * Retorna o XML enviado.
-     * 
-     * @return  string|null  Em caso de sucesso retorna string, para erro retorna null
+     *
+     * @return  string|null  Em caso de sucesso retorna string, para erro retorna null.
      */
     public function getRequest()
     {
@@ -149,11 +130,39 @@ class Soap implements iRequestXML
 
     /**
      * Retorna o XML recebido.
-     * 
-     * @return string|null  Em caso de sucesso retorna string, para erro retorna null
+     *
+     * @return string|null  Em caso de sucesso retorna string, para erro retorna null.
      */
     public function getResponse()
     {
         return ($this->client) ? $this->client->__getLastResponse() : null;
+    }
+
+    /**
+     * Transforma a string XML em um objeto \SoapVar.
+     *
+     * @param string $arguments
+     *
+     * @throws \Exception Dispara uma exception caso ocorra algum erro no processamento da string xml
+     *
+     * @return \SoapVar|null
+     */
+    public function xmlToArray($arguments)
+    {
+        /* @see http://php.net/manual/pt_BR/function.libxml-use-internal-errors.php */
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($arguments);
+
+        if ($xml === false) {
+            foreach (libxml_get_errors() as $error) {
+                throw new Exception('Ocorreu um erro ao processar o XML de envio: ' . $error->message);
+            }
+        }
+
+        if ($xml = $xml->children('soapenv', true)) {
+            $arguments = $xml->Body->children()->asXML();
+        }
+
+        return new SoapVar($arguments, XSD_ANYXML);
     }
 }
