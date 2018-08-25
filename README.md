@@ -125,4 +125,4 @@ if(!$erro = $obj->doRequest('nomeServico', $args)) {
 
 ## 6 - <a name="licenca"></a>Licença (MIT)
 
-Todo o conteúdo presente neste diretório segue o que determina a licença [MIT](https://github.com/fabiojaniolima/laraboot/blob/master/LICENSE).
+Todo o conteúdo presente neste diretório segue o que determina a licença [MIT](https://github.com/crphp/webservice/blob/master/LICENSE).
